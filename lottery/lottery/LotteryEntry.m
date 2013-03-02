@@ -21,15 +21,24 @@
     if (self)
     {
         NSAssert(theDate != nil, @"Argument must be non-nil");
-        entryDate = theDate;
+        entryDate = [theDate retain];
         firstNumber = ((int)random() % 100) + 1;
         secondNumber = ((int)random() % 100) + 1;
     }
     return self;
 }
 
+- (void)dealloc
+{
+    NSLog(@"Deallocating %@", self);
+    [entryDate release];
+    [super dealloc];
+}
+
 - (void)setEntryDate:(NSDate *)date
 {
+    [date retain];
+    [entryDate release];
     entryDate = date;
 }
 
@@ -54,10 +63,11 @@
     [df setTimeStyle:NSDateFormatterNoStyle];
     [df setDateStyle:NSDateFormatterMediumStyle];
     NSString *result;
-    result = [[NSString alloc] initWithFormat:@"%@ = %d and %d",
+    result = [NSString stringWithFormat:@"%@ = %d and %d",
               [df stringFromDate:entryDate],
               firstNumber,
               secondNumber];
+    [df release];
     return result;
 }
 
