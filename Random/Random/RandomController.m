@@ -26,4 +26,12 @@
     srandom((unsigned)time(NULL));
     [textField setStringValue:@"Generator seeded"];
 }
+
+- (void)awakeFromNib
+{
+    NSDate *now;
+    now = [NSDate date];
+    [textField setObjectValue:now];
+}
+
 @end
